@@ -2,6 +2,10 @@ const express = require('express')
 const app = express()
 const mysql = require('mysql')
 
+app.use(express.json())
+app.use(express.urlencoded({ extended: true}))
+app.use(express.static('public'))
+
 const connection = mysql.createConnection({
     host: '50.62.209.44',
     user: 'hugoqui',
@@ -35,6 +39,9 @@ app.get('/user/:id', (req, res) => {
     // res.end()
 })
 
-app.listen(3000, () => {
-    console.log("Corriendo en el puerto 3000")
-})
+// app.listen(3000, () => {
+//     console.log("Corriendo en el puerto 3000")
+// })
+
+const port = process.env.PORT || 3000
+app.listen(port, () => console.log(`Listening on port ${port}`))
