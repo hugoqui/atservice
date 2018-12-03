@@ -3,7 +3,7 @@ const app = express()
 const mysql = require('mysql')
 
 app.use(express.json())
-app.use(express.urlencoded({ extended: true}))
+app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 
 const connection = mysql.createConnection({
@@ -33,10 +33,37 @@ app.get('/user/:id', (req, res) => {
             throw err
         }
         res.json(rows)
-        console.log(rows.length)
     })
+})
 
-    // res.end()
+app.get('/entradas/:id', (req, res) => {
+    const queryString = "SELECT * FROM Entradas where Codigo=?"
+    const userId = req.params.id
+    connection.query(queryString, [userId], (err, rows, fields) => {
+        if (err || rows.length <= 0) {
+            res.sendStatus(500)
+            throw err
+            res.end()
+        }
+        res.json(rows)
+    })
+})
+
+app.get('/today/:id', (req, res) => {
+    // const queryString = "SELECT * FROM Students where Codigo=?"
+    // const userId = req.params.id
+    // connection.query(queryString, [userId], (err, rows, fields) => {
+    //     if (err || rows.length <= 0) {
+    //         res.sendStatus(500)
+    //         throw err
+    //     }
+    //     res.json(rows)        
+    // })
+    const today = new Date
+    const m = today.getMonth() + 1
+    const finalDate = today.getFullYear() + '-' + m + '-' + today.getDate()
+    console.log(finalDate)
+    res.end()
 })
 
 // app.listen(3000, () => {
