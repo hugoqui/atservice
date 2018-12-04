@@ -42,8 +42,19 @@ app.get('/entradas/:id', (req, res) => {
     connection.query(queryString, [userId], (err, rows, fields) => {
         if (err || rows.length <= 0) {
             res.sendStatus(500)
-            throw err
-            res.end()
+            throw err            
+        }
+        res.json(rows)
+    })
+})
+
+app.get('/salidas/:id', (req, res) => {
+    const queryString = "SELECT * FROM Salidas where Codigo=?"
+    const userId = req.params.id
+    connection.query(queryString, [userId], (err, rows, fields) => {
+        if (err || rows.length <= 0) {
+            res.sendStatus(500)
+            throw err            
         }
         res.json(rows)
     })
